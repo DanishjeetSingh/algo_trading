@@ -7,7 +7,7 @@
 - setup alpaca paper trading to buy and sell stocks
 - get jim cramers tweets and send it to gpt
 - set up gpt to suggest which stocks to buy and sell
-- once it's all up and running host all of this onto a firebase server where it can run for some time
+- once it's all up and running create a cron job according to stock market timings M-F
 
 ### updates
 
