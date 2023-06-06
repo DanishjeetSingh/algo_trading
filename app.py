@@ -1,6 +1,11 @@
+"""
+Purpose:
+    This script will be a server to a Twitter user endpoint to extract a number of (between 0 and 99) recent tweets
+    of any user.
+"""
+
 import re
 from configparser import ConfigParser
-
 from fastapi import FastAPI
 import requests
 import uvicorn
