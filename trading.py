@@ -7,6 +7,8 @@ Purpose:
 from configparser import ConfigParser
 from alpaca.trading.client import TradingClient
 from gpt import get_stocks
+from alpaca.trading.requests import MarketOrderRequest
+from alpaca.trading.enums import OrderSide, TimeInForce
 
 config = ConfigParser(interpolation=None)
 config.read('config.ini')
@@ -21,3 +23,16 @@ for property_name, value in account:
 
 buy_stocks = get_stocks()
 print(buy_stocks)
+
+# Setting parameters for our buy order
+market_order_data = MarketOrderRequest(
+                      symbol=buy_stocks[0],
+                      qty=1,
+                      side=OrderSide.BUY,
+                      time_in_force=TimeInForce.GTC
+                  )
+
+# Submitting the order and then printing the returned object
+market_order = trading_client.submit_order(market_order_data)
+for property_name, value in market_order:
+  print(f"\"{property_name}\": {value}")
