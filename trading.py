@@ -6,7 +6,7 @@ Purpose:
 
 from configparser import ConfigParser
 from alpaca.trading.client import TradingClient
-from test import get_stocks
+from gpt import get_stocks
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
 
