@@ -1,6 +1,6 @@
 """
 Purpose:
-    This script will be used to call the server running in app.py to access tweets of jimcramer and send it to the
+    This script will be used to get tweets of jimcramer and send it to the
     gpt api to get stock tickers to sell.
 """
 import re
@@ -8,34 +8,54 @@ from configparser import ConfigParser
 import openai
 import requests
 
-def get_stocks():
-  username = "jimcramer"
-  count = 50
 
-  url = f"http://localhost:8000/twitterdata/?username={username}&count={count}"
-  response = requests.get(url)
+def clean_tweet(text):
+    text = re.sub(r"http\S+|www\S+|https\S+", "", text)
+    text = re.sub(r"@\w+|#\w+", "", text)
+    text = re.sub(r"[^\w\s]", "", text)
+    text = re.sub(r"\s+", " ", text)
+    text = text.lower()
+    return text
 
-  tweets = response.json()
-  # print(tweets)
 
-  config = ConfigParser(interpolation=None)
-  config.read('config.ini')
-  openai.api_key = config['OPENAI']['api_key']
+def get_tweets(bearer_token, username='jimcramer'):
+    count = 50
 
-  response = openai.Completion.create(
-    model="text-davinci-003",
-    prompt="f{tweets} Jim Cramer recommends selling the following stock tickers: ",
-    max_tokens=32, # max tokens to generate
+    url = f"https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={username}&count={count}&include_rts=false"
+    headers = {
+        "Authorization": f"Bearer {bearer_token}",
+    }
+    response = requests.get(url, headers=headers)
+    tweets = response.json()
 
-    # either change temp or top_p not both
-    temperature=0.7, # b/w 0 and 2, 0.7 will make it more random, 0.2 will make it more deterministic
-    # 1 is default for top_p
-    top_p=1, # to select the top tokens with a probability 1.0
-    frequency_penalty=0, # a +ve val decreases model likelihood to repeat stuff
-    presence_penalty=0, # a +ve val increases model likelihood to talk about new stuff
-  )
+    tweet_texts = [clean_tweet(tweet["text"]) for tweet in tweets]
 
-  # the regex looks for the words with uppercase letters
-  matches = re.findall(r'\b[A-Z]+\b', response.choices[0].text)
+    return tweet_texts
 
-  return matches
+
+def get_stocks(api_key, bearer_token):
+    tweet_texts = get_tweets(bearer_token)
+    openai.api_key = api_key
+
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=f"{tweet_texts} Jim Cramer recommends selling the following stock tickers: ",
+        max_tokens=32,
+        temperature=0.7,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+    )
+
+    matches = re.findall(r'\b[A-Z]+\b', response.choices[0].text)
+
+    return matches
+
+
+if __name__ == "__main__":
+    config = ConfigParser(interpolation=None)
+    config.read('config.ini')
+    twitter_bearer_token = config['TWITTER_CREDS']['bearer_token']
+
+    stock_matches = get_stocks(api_key=config['OPENAI']['api_key'], bearer_token=twitter_bearer_token)
+    print(stock_matches)
