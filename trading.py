@@ -4,11 +4,17 @@ Purpose:
     at the end of the day we cancel all the orders and liquidate
 """
 
+import logging
 from configparser import ConfigParser
+from datetime import datetime
+
 from alpaca.trading.client import TradingClient
 from gpt import get_stocks
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
+
+logging.basicConfig(filename='logfile.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
 config = ConfigParser(interpolation=None)
 config.read('config.ini')
@@ -19,6 +25,10 @@ buy_stocks = get_stocks(api_key=config['OPENAI']['api_key'], bearer_token = conf
 
 liquidate = trading_client.close_all_positions(cancel_orders=True)
 # print(liquidate)
+if liquidate:
+    logging.info('Liquidated all positions and canceled orders')
+else:
+    logging.info("Nothing to liquidate")
 
 # Setting parameters for our buy order
 market_order_data = MarketOrderRequest(
@@ -27,10 +37,8 @@ market_order_data = MarketOrderRequest(
                       side=OrderSide.BUY,
                       time_in_force=TimeInForce.DAY
                   )
-# print(f'currently buying {buy_stocks[0]}')
-# cancel and liquidate and all the orders
+logging.info(f'Buying {buy_stocks[0]}')
 
-
-# Submitting the order and then printing the returned object
 market_order = trading_client.submit_order(market_order_data)
+logging.info(f'Submitted buy order: {market_order}')
 
