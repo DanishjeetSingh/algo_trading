@@ -6,8 +6,6 @@ Purpose:
 
 import logging
 from configparser import ConfigParser
-from datetime import datetime
-
 from alpaca.trading.client import TradingClient
 from gpt import get_stocks
 from alpaca.trading.requests import MarketOrderRequest
