@@ -31,14 +31,16 @@ else:
     logging.info("Nothing to liquidate")
 
 # Setting parameters for our buy order
-market_order_data = MarketOrderRequest(
-                      symbol=buy_stocks[0],
-                      qty=1,
-                      side=OrderSide.BUY,
-                      time_in_force=TimeInForce.DAY
-                  )
-logging.info(f'Buying {buy_stocks[0]}')
-
-market_order = trading_client.submit_order(market_order_data)
-logging.info(f'Submitted buy order: {market_order}')
+if not buy_stocks:
+    logging.info(f'No stocks to buy today')
+else:
+    market_order_data = MarketOrderRequest(
+                          symbol=buy_stocks[0],
+                          qty=1,
+                          side=OrderSide.BUY,
+                          time_in_force=TimeInForce.DAY
+                      )
+    logging.info(f'Buying {buy_stocks[0]}')
+    market_order = trading_client.submit_order(market_order_data)
+    logging.info(f'Submitted buy order: {market_order}')
 
