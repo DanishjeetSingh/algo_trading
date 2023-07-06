@@ -8,10 +8,12 @@
 - get jim cramers tweets and send it to gpt
 - set up gpt to suggest which stocks to buy and sell
 - once it's all up and running create a cron job according to stock market timings M-F
+- last 50 tweets is good for gpt to suggest stock tickers
+
 
 ### updates
 
-- last 50 tweets is good for gpt to suggest stock tickers
+- the twitter endpoint doesn't work anymore, switch to scraping
 
 
 ## Helpful resources
