@@ -4,7 +4,7 @@ Setup a cron job to run ```trading.py```
 ```
 crontab -e
 ```
-the below command ensures the code runs at 9 AM from M-F (remember to change the time incase your machine not in EST)
+the below command ensures the code runs at 9 AM from M-F (remember to change the time incase your machine is not in EST)
 ```
 0 9 * * 1-5 python3 trading.py
 ```
