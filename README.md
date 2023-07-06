@@ -1,19 +1,17 @@
-# Algorithmic Trading using GPT-4 and Alpaca
+# Algorithmic Trading using GPT and Alpaca
 
-## probable plan to follow
+Setup a cron job to run ```trading.py```
+```
+crontab -e
+```
+the below command ensures the code runs at 9 AM from M-F (remember to change the time incase your machine not in EST)
+```
+0 9 * * 1-5 python3 trading.py
+```
 
-### inverse cramer strategy 😈
+### stuff to do
 
-- setup alpaca paper trading to buy and sell stocks
-- get jim cramers tweets and send it to gpt
-- set up gpt to suggest which stocks to buy and sell
-- once it's all up and running create a cron job according to stock market timings M-F
-- last 50 tweets is good for gpt to suggest stock tickers
-
-
-### updates
-
-- the twitter endpoint doesn't work anymore, switch to scraping
+- [ ] the twitter endpoint doesn't work anymore, switch to scraping
 
 
 ## Helpful resources
