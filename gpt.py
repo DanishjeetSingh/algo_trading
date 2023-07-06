@@ -28,7 +28,7 @@ def get_tweets(bearer_token, username='jimcramer'):
     response = requests.get(url, headers=headers)
     tweets = response.json()
 
-    tweet_texts = [clean_tweet(tweet["text"]) for tweet in tweets]
+    tweet_texts = [clean_tweet(tweet["text"]) for tweet in tweets] if tweets.get('text') else []
 
     return tweet_texts
 
