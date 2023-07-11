@@ -1,5 +1,15 @@
 # Algorithmic Trading using GPT and Alpaca
 
+## Stock trading bot built on [Inverse Cramer Strategy](https://cleverandsmart22.medium.com/the-inverse-jim-cramer-strategy-a412235a45fe)
+
+### How does it work?
+
+- Get last 50 tweets from jim cramer's Twitter handle
+- Feed it to a GPT model and ask for stock tickers to sell
+- Buy the first stock with 90% of your buying power through Alpaca
+
+### How to use this bot?
+
 Setup a cron job to run ```trading.py```
 ```
 crontab -e
