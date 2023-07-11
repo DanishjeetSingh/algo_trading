@@ -12,6 +12,7 @@ the below command ensures the code runs at 9 AM from M-F (remember to change the
 ### stuff to do
 
 - [ ] the twitter endpoint doesn't work anymore, switch to scraping
+- [ ] send the log messages to a discord server as well.
 
 
 ## Helpful resources
