@@ -18,7 +18,6 @@ config = ConfigParser(interpolation=None)
 config.read('config.ini')
 
 trading_client = TradingClient(api_key=config['ALPACA']['api_key'], secret_key=config['ALPACA']['secret_key'], paper=True)
-account = trading_client.get_account()
 
 buy_stocks = get_stocks(api_key=config['OPENAI']['api_key'], bearer_token = config['TWITTER_CREDS']['bearer_token'])
 # print(buy_stocks)
@@ -29,6 +28,9 @@ if liquidate:
     logging.info('Liquidated all positions and canceled orders')
 else:
     logging.info("Nothing to liquidate")
+
+# getting account info after liquidation so buying power is maximum
+account = trading_client.get_account()
 
 # Setting parameters for our buy order
 if not buy_stocks:
