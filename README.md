@@ -24,6 +24,9 @@ the below command ensures the code runs at 9 AM from M-F (remember to change the
 - [ ] the twitter endpoint doesn't work anymore, switch to scraping
 - [ ] send the log messages to a discord server as well.
 
+## helpful tips
+- you can modify the logging in `trading.py` to be a `QueueHandler` and create a thread worker to capture those
+- which later on can be captured by the discord bot in `bot.py` to send the messages to your channel.
 
 ## Helpful resources
 - [fireship algo trading YT video](https://www.youtube.com/watch?v=BrcugNqRwUs)
