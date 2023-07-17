@@ -5,6 +5,7 @@ Purpose:
 """
 
 import logging
+import time
 from configparser import ConfigParser
 from alpaca.trading.client import TradingClient
 from gpt import get_stocks
@@ -29,6 +30,8 @@ if liquidate:
 else:
     logging.info("Nothing to liquidate")
 
+# gotta wait for some time so the stocks can have some time to liquidate
+time.sleep(30)
 # getting account info after liquidation so buying power is maximum
 account = trading_client.get_account()
 
